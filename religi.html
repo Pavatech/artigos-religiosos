@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loja Católica - Artigos Religiosos</title>
+
+  <!-- Fonte personalizada para o título -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+    }
+
+    header {
+      background-color: #385723;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.1em;
+    }
+
+    nav {
+      background-color: #2d3b2e;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    .banner {
+      background: url('https://cdn.pixabay.com/photo/2018/06/10/15/00/church-3467453_960_720.jpg') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2em;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .produto {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .produto img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    .produto h3 {
+      margin: 15px 0 5px;
+    }
+
+    .btn-comprar {
+      background-color: #3e6b2e;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-comprar:hover {
+      background-color: #2c4d1f;
+    }
+
+    /* Ícone flutuante */
+    .carrinho-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #3e6b2e;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 999;
+    }
+
+    /* Popup carrinho */
+    .popup-carrinho {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      padding: 15px;
+      display: none;
+      flex-direction: column;
+      z-index: 998;
+      overflow-y: auto;
+    }
+
+    .popup-carrinho h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .popup-carrinho ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 10px 0;
+    }
+
+    .popup-carrinho li {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .btn-finalizar {
+      background-color: #2d3b2e;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-finalizar:hover {
+      background-color: #1e2a1e;
+    }
+
+    footer {
+      background-color: #2d3b2e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pavanelo</h1>
+    <p>Artigos Religiosos para sua Fé</p>
+  </header>
+
+  <nav>
+    <a href="#produtos">Início</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  
+  <div class="banner">
+    Fortaleça sua fé com nossos artigos religiosos
+  </div>
+
+  <section class="produtos" id="produtos"></section>
+
+  <!-- Botão flutuante -->
+  <button class="carrinho-icon" onclick="toggleCarrinho()">
+    <i class="fas fa-shopping-cart"></i>
+  </button>
+
+  <!-- Popup carrinho -->
+  <div class="popup-carrinho" id="popupCarrinho">
+    <h2>🛒 Carrinho</h2>
+    <ul id="listaCarrinho"></ul>
+    <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar via WhatsApp</button>
+  </div>
+
+  <section id="contato" style="padding: 40px; background-color: #eef2ea;">
+    <h2 style="text-align: center;">Contato</h2>
+    <p style="text-align: center;">📞 WhatsApp: (11) 99999-9999<br>📧 Email: lojacatolica@exemplo.com</p>
+  </section>
+  
+
+  <script>
+    const carrinho = [];
+    const produtos = [
+      { nome: "Terço de Madeira", preco: "19,90", img: "https://cdn.pixabay.com/photo/2016/04/01/10/02/rosary-1308663_960_720.jpg" },
+      { nome: "Crucifixo de Parede", preco: "39,90", img: "https://cdn.pixabay.com/photo/2020/08/25/21/20/jesus-5517654_960_720.jpg" },
+      { nome: "Imagem de Nossa Senhora", preco: "59,90", img: "https://cdn.pixabay.com/photo/2020/07/29/08/58/virgin-5448477_960_720.jpg" },
+      { nome: "Bíblia Sagrada", preco: "49,90", img: "https://cdn.pixabay.com/photo/2017/01/17/15/38/bible-1983670_960_720.jpg" },
+      { nome: "Velas Abençoadas", preco: "14,90", img: "https://cdn.pixabay.com/photo/2015/12/08/00/32/advent-1082298_960_720.jpg" },
+      { nome: "Crucifixo Pequeno", preco: "29,90", img: "https://cdn.pixabay.com/photo/2017/02/15/12/12/cross-2060759_960_720.jpg" },
+      { nome: "Medalha de São Bento", preco: "24,90", img: "https://cdn.pixabay.com/photo/2015/06/10/15/46/rosary-804875_960_720.jpg" },
+      { nome: "Imagem de São Francisco", preco: "69,90", img: "https://cdn.pixabay.com/photo/2021/08/26/17/50/statue-6575901_960_720.jpg" },
+      { nome: "Livro de Orações", preco: "19,90", img: "https://cdn.pixabay.com/photo/2017/04/06/22/11/book-2205322_960_720.jpg" },
+      { nome: "Água Benta", preco: "9,90", img: "https://cdn.pixabay.com/photo/2018/10/30/17/15/church-3785870_960_720.jpg" },
+      { nome: "Escapulário", preco: "12,90", img: "https://cdn.pixabay.com/photo/2022/03/01/04/47/religion-7038887_960_720.jpg" },
+      { nome: "Rosário Branco", preco: "22,90", img: "https://cdn.pixabay.com/photo/2016/12/06/18/27/prayer-1880037_960_720.jpg" },
+      { nome: "Chaveiro Católico", preco: "11,90", img: "https://cdn.pixabay.com/photo/2016/06/05/17/56/key-chain-1433882_960_720.jpg" },
+      { nome: "Ícone de Maria", preco: "35,90", img: "https://cdn.pixabay.com/photo/2017/02/20/16/25/maria-2082779_960_720.jpg" },
+      { nome: "Terço de Pérola", preco: "27,90", img: "https://cdn.pixabay.com/photo/2016/11/23/00/40/rosary-1850103_960_720.jpg" },
+      { nome: "Camisa Jesus", preco: "44,90", img: "https://cdn.pixabay.com/photo/2020/03/12/14/42/t-shirt-4923561_960_720.jpg" },
+      { nome: "Quadro Religioso", preco: "89,90", img: "https://cdn.pixabay.com/photo/2022/01/10/20/44/jesus-6928350_960_720.jpg" },
+      { nome: "Kit de Missa", preco: "149,90", img: "https://cdn.pixabay.com/photo/2022/02/19/09/42/altar-7021733_960_720.jpg" },
+      { nome: "Vela de 7 dias", preco: "7,90", img: "https://cdn.pixabay.com/photo/2016/04/12/22/23/candles-1328295_960_720.jpg" },
+      { nome: "Crucifixo de Colar", preco: "32,90", img: "https://cdn.pixabay.com/photo/2020/03/10/18/56/cross-4919384_960_720.jpg" }
+    ];
+
+    function carregarProdutos() {
+      const container = document.getElementById('produtos');
+      produtos.forEach(prod => {
+        const div = document.createElement('div');
+        div.className = 'produto';
+        div.innerHTML = `
+          <img src="${prod.img}" alt="${prod.nome}">
+          <h3>${prod.nome}</h3>
+          <p>R$ ${prod.preco}</p>
+          <button class="btn-comprar" onclick="adicionarAoCarrinho('${prod.nome} - R$ ${prod.preco}')">Adicionar</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function adicionarAoCarrinho(item) {
+      carrinho.push(item);
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById('listaCarrinho');
+      lista.innerHTML = '';
+      carrinho.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        lista.appendChild(li);
+      });
+    }
+
+    function toggleCarrinho() {
+      const popup = document.getElementById('popupCarrinho');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function finalizarCompra() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio.");
+        return;
+      }
+      const mensagem = `Olá, gostaria de fazer o seguinte pedido:\n\n${carrinho.map(i => '• ' + i).join('\n')}`;
+      const numero = "5511999999999"; // Troque pelo seu número com DDI + DDD + número
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+
+    carregarProdutos();
+  </script>
+</body>
+</html>
