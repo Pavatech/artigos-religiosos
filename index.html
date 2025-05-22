@@ -218,12 +218,9 @@
       { nome: "Medalha de São Bento", preco: "24,90", img: "https://cdn.pixabay.com/photo/2015/06/10/15/46/rosary-804875_960_720.jpg" },
       { nome: "Imagem de São Francisco", preco: "69,90", img: "https://cdn.pixabay.com/photo/2021/08/26/17/50/statue-6575901_960_720.jpg" },
       { nome: "Livro de Orações", preco: "19,90", img: "https://cdn.pixabay.com/photo/2017/04/06/22/11/book-2205322_960_720.jpg" },
-      { nome: "Água Benta", preco: "9,90", img: "https://cdn.pixabay.com/photo/2018/10/30/17/15/church-3785870_960_720.jpg" },
       { nome: "Escapulário", preco: "12,90", img: "https://cdn.pixabay.com/photo/2022/03/01/04/47/religion-7038887_960_720.jpg" },
       { nome: "Rosário Branco", preco: "22,90", img: "https://cdn.pixabay.com/photo/2016/12/06/18/27/prayer-1880037_960_720.jpg" },
       { nome: "Chaveiro Católico", preco: "11,90", img: "https://cdn.pixabay.com/photo/2016/06/05/17/56/key-chain-1433882_960_720.jpg" },
-      { nome: "Ícone de Maria", preco: "35,90", img: "https://cdn.pixabay.com/photo/2017/02/20/16/25/maria-2082779_960_720.jpg" },
-      { nome: "Terço de Pérola", preco: "27,90", img: "https://cdn.pixabay.com/photo/2016/11/23/00/40/rosary-1850103_960_720.jpg" },
       { nome: "Camisa Jesus", preco: "44,90", img: "https://cdn.pixabay.com/photo/2020/03/12/14/42/t-shirt-4923561_960_720.jpg" },
       { nome: "Quadro Religioso", preco: "89,90", img: "https://cdn.pixabay.com/photo/2022/01/10/20/44/jesus-6928350_960_720.jpg" },
       { nome: "Kit de Missa", preco: "149,90", img: "https://cdn.pixabay.com/photo/2022/02/19/09/42/altar-7021733_960_720.jpg" },
@@ -240,7 +237,7 @@
           <img src="${prod.img}" alt="${prod.nome}">
           <h3>${prod.nome}</h3>
           <p>R$ ${prod.preco}</p>
-          <button class="btn-comprar" onclick="adicionarAoCarrinho('${prod.nome} - R$ ${prod.preco}')">Adicionar</button>
+          <button class="btn-comprar" onclick="adicionarAoCarrinho('${prod.nome} - R$ ${prod.preco}')">Adicionar ao carrinho</button>
         `;
         container.appendChild(div);
       });
