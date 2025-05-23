@@ -9,167 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f8f8f8;
-    }
-
-    header {
-      background-color: #385723;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3em;
-      margin: 0;
-    }
-
-    header p {
-      font-size: 1.1em;
-    }
-
-    nav {
-      background-color: #2d3b2e;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
-
-    .banner {
-      background: url('https://cdn.pixabay.com/photo/2018/06/10/15/00/church-3467453_960_720.jpg') center/cover no-repeat;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 2em;
-      text-shadow: 2px 2px 4px #000;
-    }
-
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 40px;
-    }
-
-    .produto {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .produto img {
-      max-width: 100%;
-      height: 150px;
-      object-fit: contain;
-      border-radius: 5px;
-    }
-
-    .produto h3 {
-      margin: 15px 0 5px;
-    }
-
-    .btn-comprar {
-      background-color: #3e6b2e;
-      color: white;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .btn-comprar:hover {
-      background-color: #2c4d1f;
-    }
-
-    /* Ícone flutuante */
-    .carrinho-icon {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #3e6b2e;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      z-index: 999;
-    }
-
-    /* Popup carrinho */
-    .popup-carrinho {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 300px;
-      max-height: 400px;
-      background-color: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      padding: 15px;
-      display: none;
-      flex-direction: column;
-      z-index: 998;
-      overflow-y: auto;
-    }
-
-    .popup-carrinho h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
-    .popup-carrinho ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 10px 0;
-    }
-
-    .popup-carrinho li {
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-
-    .btn-finalizar {
-      background-color: #2d3b2e;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .btn-finalizar:hover {
-      background-color: #1e2a1e;
-    }
-
-    footer {
-      background-color: #2d3b2e;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -181,9 +21,14 @@
     <a href="#produtos">Início</a>
     <a href="#contato">Contato</a>
   </nav>
-  
+
   <div class="banner">
     Fortaleça sua fé com nossos artigos religiosos
+  </div>
+
+  <div class="pesquisa-container">
+    <input type="text" id="campoBusca" placeholder="Buscar produto..." oninput="filtrarProdutos()">
+    <button onclick="filtrarProdutos()" class="btn-buscar">Buscar</button>
   </div>
 
   <section class="produtos" id="produtos"></section>
@@ -191,6 +36,7 @@
   <!-- Botão flutuante -->
   <button class="carrinho-icon" onclick="toggleCarrinho()">
     <i class="fas fa-shopping-cart"></i>
+    <span id="carrinhoQtd">0</span>
   </button>
 
   <!-- Popup carrinho -->
@@ -204,7 +50,6 @@
     <h2 style="text-align: center;">Contato</h2>
     <p style="text-align: center;">📞 WhatsApp: (11) 99999-9999<br>📧 Email: lojacatolica@exemplo.com</p>
   </section>
-  
 
   <script>
     const carrinho = [];
@@ -228,9 +73,10 @@
       { nome: "Crucifixo de Colar", preco: "32,90", img: "https://cdn.pixabay.com/photo/2020/03/10/18/56/cross-4919384_960_720.jpg" }
     ];
 
-    function carregarProdutos() {
+    function carregarProdutos(lista = produtos) {
       const container = document.getElementById('produtos');
-      produtos.forEach(prod => {
+      container.innerHTML = '';
+      lista.forEach(prod => {
         const div = document.createElement('div');
         div.className = 'produto';
         div.innerHTML = `
@@ -256,6 +102,7 @@
         li.textContent = item;
         lista.appendChild(li);
       });
+      document.getElementById('carrinhoQtd').textContent = carrinho.length;
     }
 
     function toggleCarrinho() {
@@ -272,6 +119,12 @@
       const numero = "5511999999999"; // Troque pelo seu número com DDI + DDD + número
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
+    }
+
+    function filtrarProdutos() {
+      const termo = document.getElementById('campoBusca').value.toLowerCase();
+      const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+      carregarProdutos(filtrados);
     }
 
     carregarProdutos();
