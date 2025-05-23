@@ -4,14 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Loja Católica - Artigos Religiosos</title>
-
-  <!-- Fonte personalizada para o título -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header>
     <h1>Pavanelo</h1>
     <p>Artigos Religiosos para sua Fé</p>
@@ -33,16 +31,17 @@
 
   <section class="produtos" id="produtos"></section>
 
-  <!-- Botão flutuante -->
+  <!-- Ícone flutuante do carrinho -->
   <button class="carrinho-icon" onclick="toggleCarrinho()">
     <i class="fas fa-shopping-cart"></i>
     <span id="carrinhoQtd">0</span>
   </button>
 
-  <!-- Popup carrinho -->
+  <!-- Popup do carrinho -->
   <div class="popup-carrinho" id="popupCarrinho">
     <h2>🛒 Carrinho</h2>
     <ul id="listaCarrinho"></ul>
+    <div id="totalCarrinho" style="margin: 10px 0; font-weight: bold;">Total: R$ 0,00</div>
     <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar via WhatsApp</button>
   </div>
 
@@ -53,61 +52,74 @@
 
   <script>
     const carrinho = [];
+
     const produtos = [
-      { nome: "Terço de Madeira", preco: "19,90", img: "img/terço.png" },
-      { nome: "Crucifixo de Parede", preco: "39,90", img: "img/crucifixo1.png" },
-      { nome: "Imagem de Nossa Senhora", preco: "59,90", img: "img/nossasenhora.png" },
-      { nome: "Bíblia Sagrada", preco: "49,90", img: "img/biblia.jpg" },
-      { nome: "Velas Abençoadas", preco: "14,90", img: "https://cdn.pixabay.com/photo/2015/12/08/00/32/advent-1082298_960_720.jpg" },
-      { nome: "Crucifixo Pequeno", preco: "29,90", img: "https://cdn.pixabay.com/photo/2017/02/15/12/12/cross-2060759_960_720.jpg" },
-      { nome: "Medalha de São Bento", preco: "24,90", img: "https://cdn.pixabay.com/photo/2015/06/10/15/46/rosary-804875_960_720.jpg" },
-      { nome: "Imagem de São Francisco", preco: "69,90", img: "https://cdn.pixabay.com/photo/2021/08/26/17/50/statue-6575901_960_720.jpg" },
-      { nome: "Livro de Orações", preco: "19,90", img: "https://cdn.pixabay.com/photo/2017/04/06/22/11/book-2205322_960_720.jpg" },
-      { nome: "Escapulário", preco: "12,90", img: "https://cdn.pixabay.com/photo/2022/03/01/04/47/religion-7038887_960_720.jpg" },
-      { nome: "Rosário Branco", preco: "22,90", img: "https://cdn.pixabay.com/photo/2016/12/06/18/27/prayer-1880037_960_720.jpg" },
-      { nome: "Chaveiro Católico", preco: "11,90", img: "https://cdn.pixabay.com/photo/2016/06/05/17/56/key-chain-1433882_960_720.jpg" },
-      { nome: "Camisa Jesus", preco: "44,90", img: "https://cdn.pixabay.com/photo/2020/03/12/14/42/t-shirt-4923561_960_720.jpg" },
-      { nome: "Quadro Religioso", preco: "89,90", img: "https://cdn.pixabay.com/photo/2022/01/10/20/44/jesus-6928350_960_720.jpg" },
-      { nome: "Kit de Missa", preco: "149,90", img: "https://cdn.pixabay.com/photo/2022/02/19/09/42/altar-7021733_960_720.jpg" },
-      { nome: "Vela de 7 dias", preco: "7,90", img: "https://cdn.pixabay.com/photo/2016/04/12/22/23/candles-1328295_960_720.jpg" },
-      { nome: "Crucifixo de Colar", preco: "32,90", img: "https://cdn.pixabay.com/photo/2020/03/10/18/56/cross-4919384_960_720.jpg" }
+      { nome: "Terço de Madeira", preco: 19.90, img: "img/terço.png" },
+      { nome: "Crucifixo de Parede", preco: 39.90, img: "img/crucifixo1.png" },
+      { nome: "Imagem de Nossa Senhora", preco: 59.90, img: "img/nossasenhora.png" },
+      { nome: "Bíblia Sagrada", preco: 49.90, img: "img/biblia.jpg" },
+      { nome: "Velas Abençoadas", preco: 14.90, img: "https://cdn.pixabay.com/photo/2015/12/08/00/32/advent-1082298_960_720.jpg" },
+      { nome: "Crucifixo Pequeno", preco: 29.90, img: "https://cdn.pixabay.com/photo/2017/02/15/12/12/cross-2060759_960_720.jpg" },
+      { nome: "Medalha de São Bento", preco: 24.90, img: "https://cdn.pixabay.com/photo/2015/06/10/15/46/rosary-804875_960_720.jpg" },
+      { nome: "Imagem de São Francisco", preco: 69.90, img: "https://cdn.pixabay.com/photo/2021/08/26/17/50/statue-6575901_960_720.jpg" },
+      { nome: "Livro de Orações", preco: 19.90, img: "https://cdn.pixabay.com/photo/2017/04/06/22/11/book-2205322_960_720.jpg" },
+      { nome: "Escapulário", preco: 12.90, img: "https://cdn.pixabay.com/photo/2022/03/01/04/47/religion-7038887_960_720.jpg" },
+      { nome: "Rosário Branco", preco: 22.90, img: "https://cdn.pixabay.com/photo/2016/12/06/18/27/prayer-1880037_960_720.jpg" },
+      { nome: "Chaveiro Católico", preco: 11.90, img: "https://cdn.pixabay.com/photo/2016/06/05/17/56/key-chain-1433882_960_720.jpg" },
+      { nome: "Camisa Jesus", preco: 44.90, img: "https://cdn.pixabay.com/photo/2020/03/12/14/42/t-shirt-4923561_960_720.jpg" },
+      { nome: "Quadro Religioso", preco: 89.90, img: "https://cdn.pixabay.com/photo/2022/01/10/20/44/jesus-6928350_960_720.jpg" },
+      { nome: "Kit de Missa", preco: 149.90, img: "https://cdn.pixabay.com/photo/2022/02/19/09/42/altar-7021733_960_720.jpg" },
+      { nome: "Vela de 7 dias", preco: 7.90, img: "https://cdn.pixabay.com/photo/2016/04/12/22/23/candles-1328295_960_720.jpg" },
+      { nome: "Crucifixo de Colar", preco: 32.90, img: "https://cdn.pixabay.com/photo/2020/03/10/18/56/cross-4919384_960_720.jpg" }
     ];
 
     function carregarProdutos(lista = produtos) {
       const container = document.getElementById('produtos');
       container.innerHTML = '';
-      lista.forEach(prod => {
+      lista.forEach((prod, index) => {
         const div = document.createElement('div');
         div.className = 'produto';
         div.innerHTML = `
           <img src="${prod.img}" alt="${prod.nome}">
           <h3>${prod.nome}</h3>
-          <p>R$ ${prod.preco}</p>
-          <button class="btn-comprar" onclick="adicionarAoCarrinho('${prod.nome} - R$ ${prod.preco}')">Adicionar ao carrinho</button>
+          <p>R$ ${prod.preco.toFixed(2)}</p>
+          <button class="btn-comprar" onclick="adicionarAoCarrinho('${prod.nome}', ${prod.preco})">Adicionar ao carrinho</button>
         `;
         container.appendChild(div);
       });
     }
 
-    function adicionarAoCarrinho(item) {
-      carrinho.push(item);
+    function adicionarAoCarrinho(nome, preco) {
+      carrinho.push({ nome, preco });
+      atualizarCarrinho();
+    }
+
+    function removerDoCarrinho(index) {
+      carrinho.splice(index, 1);
       atualizarCarrinho();
     }
 
     function atualizarCarrinho() {
-      const lista = document.getElementById('listaCarrinho');
-      lista.innerHTML = '';
-      carrinho.forEach((item) => {
-        const li = document.createElement('li');
-        li.textContent = item;
+      const lista = document.getElementById("listaCarrinho");
+      const totalSpan = document.getElementById("totalCarrinho");
+      const contador = document.getElementById("carrinhoQtd");
+      lista.innerHTML = "";
+
+      let total = 0;
+      carrinho.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${item.nome} - R$ ${item.preco.toFixed(2)} <button class='remover' onclick='removerDoCarrinho(${index})'>x</button>`;
         lista.appendChild(li);
+        total += item.preco;
       });
-      document.getElementById('carrinhoQtd').textContent = carrinho.length;
+
+      totalSpan.textContent = `Total: R$ ${total.toFixed(2)}`;
+      contador.textContent = carrinho.length;
     }
 
     function toggleCarrinho() {
-      const popup = document.getElementById('popupCarrinho');
-      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+      const popup = document.getElementById("popupCarrinho");
+      popup.style.display = popup.style.display === "flex" ? "none" : "flex";
     }
 
     function finalizarCompra() {
@@ -115,8 +127,8 @@
         alert("Seu carrinho está vazio.");
         return;
       }
-      const mensagem = `Olá, gostaria de fazer o seguinte pedido:\n\n${carrinho.map(i => '• ' + i).join('\n')}`;
-      const numero = "5511999999999"; // Troque pelo seu número com DDI + DDD + número
+      const mensagem = `Olá, gostaria de fazer o seguinte pedido:\n\n${carrinho.map(i => `• ${i.nome} - R$ ${i.preco.toFixed(2)}`).join('\n')}`;
+      const numero = "5511999999999"; // Altere para o número real
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
     }
@@ -128,43 +140,6 @@
     }
 
     carregarProdutos();
-
-    // Script para adicionar e remover itens do carrinho
-let carrinho = [];
-
-function adicionarAoCarrinho(nome, preco) {
-  carrinho.push({ nome, preco });
-  atualizarCarrinho();
-}
-
-function removerDoCarrinho(index) {
-  carrinho.splice(index, 1);
-  atualizarCarrinho();
-}
-
-function atualizarCarrinho() {
-  const lista = document.getElementById("listaCarrinho");
-  const totalSpan = document.getElementById("totalCarrinho");
-  const contador = document.getElementById("contadorCarrinho");
-  lista.innerHTML = "";
-
-  let total = 0;
-  carrinho.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `${item.nome} - R$ ${item.preco.toFixed(2)} <button class='remover' onclick='removerDoCarrinho(${index})'>x</button>`;
-    lista.appendChild(li);
-    total += item.preco;
-  });
-
-  totalSpan.textContent = `Total: R$ ${total.toFixed(2)}`;
-  contador.textContent = carrinho.length;
-}
-
-// Mostrar/esconder popup do carrinho
-document.getElementById("iconeCarrinho").addEventListener("click", () => {
-  const popup = document.getElementById("popupCarrinho");
-  popup.style.display = popup.style.display === "flex" ? "none" : "flex";
-});
   </script>
 </body>
 </html>
