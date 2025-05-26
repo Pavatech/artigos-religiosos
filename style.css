@@ -20,7 +20,7 @@ header {
 
 /* este bloco estava errado antes — agora está fora do header */
 header img {
-  max-height: 60px; /* ajuste como quiser */
+  max-height: 160px; /* ajuste como quiser */
   width: auto;
   margin-bottom: 10px;
 }
