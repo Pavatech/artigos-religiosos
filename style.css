@@ -16,6 +16,11 @@ header {
   color: white;
   text-align: center;
   padding: 20px 10px;
+  header img {
+  max-height: 80px; /* ajuste conforme necessário */
+  width: auto;
+}
+
 }
 
 header h1 {
